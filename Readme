@@ -1,0 +1,49 @@
+A source to source transformation tool for C language using clang LibTooling, LibASTMatchers and RecursiveASTVisitor, 
+creates a new source file which support nested functions (as labeled blocks).
+
+LLVM Version
+============
+I developed the code for LLVM 11.0.0
+
+HOW TO COMPILE AND RUN
+======================
+* Add the folder "clang-nested-func" to llvm-project/clang/tools.
+* Add the line "add_clang_subdirectory(clang-nested-func)" to llvm-project/clang/tools/CMakeLists.txt
+* cd build 
+* cmake -DLLVM_ENABLE_PROJECTS=clang -G "Unix Makefiles" ../llvm
+* make
+* A new executable "clang-nested-func" will be created in llvm-project/build/bin
+* Invoke the tool using llvm-project/build/bin/clang-nested-func testfile --
+* The tool prints the rewritten code to stdout.
+
+HOW TO RUN TEST PROGRAMS
+========================
+* test_programs folder contain runAll.sh script.
+* This script invokes clang-nested-func tool on test programs stored in test_files folder and stores the transformed 
+    source code in output_files folder.
+
+FILES IN DIRECTORY clang-nested-func
+====================================
+* clang-nested-func.cpp : This file contain the code for source to source transformation of a C program to support
+nested functions (as labeled blocks).
+* CMakeLists.txt : CMake file to build clang-nested-func.cpp
+
+Answers to asked questions
+==========================
+0. test0.c contain the code sent along with assignment. test0_output.c contain the transformed code.
+1. Does your implementation handle recursively nested function blocks?
+    Yes, test1.c demonstrate it.
+2. Does your implementation handle structs that are locally defined (i.e. defined inside the function)?
+    Yes, test2.c demonstrate it.
+3. If I have a local captured variable (i.e. the var is defined inside the function and used inside the closure) 
+and a global var with same name, will your code still work?
+    Yes, global and local var are handled accordingly. test3.c demonstrate it.
+4. Do you pass all the variables to every closure or only the captured vars?
+    My solution defines global structure for every function/labeled block containing pointer to local variables
+    in that function/labeled block. 
+5. Can you handle multiple closures in same/different functions (not necessarily nested)?
+    Yes, test4.c demonstrate it.
+6. Do you explicitly pass global vars to the closure as well? Note that you don't need that.
+    No
+7. In addition, if your implementation has any extra features, please  mention these and add tests for them.
+    My solution supports 1D arrays other than int, float and struct. test5.c demonstrate it.

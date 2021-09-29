@@ -1,0 +1,3 @@
+runAll.sh executes all the test programs which are in "test_files" folder and saves output programs in "output_files" folder.
+
+test*_output.c files are the outputs for the test programs in test_files folder.
